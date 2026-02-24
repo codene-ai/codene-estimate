@@ -1,26 +1,342 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark charcoal palette — matched to neumorphic reference */
+  --background: #222225;
+  --background-alt: #1e1e21;
+  --surface: #2a2a2e;
+  --surface-raised: #303035;
+  --foreground: #d4d4d8;
+  --foreground-dim: #8a8a92;
+  --primary: #b87333;
+  --primary-hover: #d4944c;
+  --primary-light: rgba(184, 115, 51, 0.10);
+  --primary-glow: rgba(184, 115, 51, 0.18);
+  --accent: #c07840;
+  --accent-hover: #d4944c;
+  --muted: #64646c;
+  --muted-bg: rgba(200, 200, 210, 0.04);
+  --border: rgba(200, 200, 210, 0.06);
+  --border-glow: rgba(184, 115, 51, 0.12);
+  --error: #e87461;
+  --success: #6dbb7a;
+  --card-bg: var(--surface);
+  --glass-bg: var(--surface);
+  --glass-bg-hover: var(--surface-raised);
+  --glass-border: rgba(200, 200, 210, 0.05);
+  --glass-border-bright: rgba(200, 200, 210, 0.08);
+
+  /* Shadow tokens — soft, diffused */
+  --clay-highlight: rgba(200, 200, 210, 0.035);
+  --clay-shadow: rgba(0, 0, 0, 0.6);
+  --clay-inset-highlight: rgba(200, 200, 210, 0.025);
+  --clay-inset-shadow: rgba(0, 0, 0, 0.5);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
   --color-foreground: var(--foreground);
+  --color-foreground-dim: var(--foreground-dim);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-primary-glow: var(--primary-glow);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-muted: var(--muted);
+  --color-muted-bg: var(--muted-bg);
+  --color-border: var(--border);
+  --color-border-glow: var(--border-glow);
+  --color-error: var(--error);
+  --color-success: var(--success);
+  --color-card-bg: var(--card-bg);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-bg-hover: var(--glass-bg-hover);
+  --color-glass-border: var(--glass-border);
+  --color-glass-border-bright: var(--glass-border-bright);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* ===========================================
+   SCULPTED CLAY — Matte tactile depth system
+   =========================================== */
+
+/* ---- Background ---- */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--background);
+}
+
+/* ---- Clay Panel (raised, matte) ----
+   Soft sculpted surface — no shine, all depth */
+.glass-panel {
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid rgba(228, 228, 235, 0.04);
+  box-shadow:
+    8px 8px 20px var(--clay-shadow),
+    -4px -4px 14px var(--clay-highlight);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.glass-panel:hover {
+  box-shadow:
+    10px 10px 28px var(--clay-shadow),
+    -5px -5px 18px var(--clay-highlight);
+  transform: translateY(-1px);
+}
+
+.glass-panel-elevated {
+  background: var(--surface-raised);
+  border-radius: 20px;
+  border: 1px solid rgba(228, 228, 235, 0.05);
+  box-shadow:
+    10px 10px 30px var(--clay-shadow),
+    -6px -6px 20px var(--clay-highlight);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- Clay Pill ---- */
+.glass-pill {
+  background: var(--surface);
+  border: 1px solid rgba(228, 228, 235, 0.05);
+  border-radius: 100px;
+  box-shadow:
+    5px 5px 14px var(--clay-shadow),
+    -3px -3px 10px var(--clay-highlight);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- Primary Button (neumorphic raised) ---- */
+.gel-btn {
+  background: linear-gradient(145deg, #303035, #262629);
+  color: #d4944c;
+  box-shadow:
+    6px 6px 16px rgba(0, 0, 0, 0.5),
+    -4px -4px 12px rgba(50, 50, 55, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(184, 115, 51, 0.1);
+}
+
+.gel-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background:
+    conic-gradient(from 200deg at 50% 0%, transparent 0deg, rgba(184,115,51,0.15) 40deg, rgba(212,148,76,0.3) 90deg, rgba(184,115,51,0.15) 140deg, transparent 180deg, transparent 360deg);
+  mask-image: radial-gradient(ellipse 50% 12% at 50% 0%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 50% 12% at 50% 0%, black 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.gel-btn:hover:not(:disabled) {
+  box-shadow:
+    8px 8px 22px rgba(0, 0, 0, 0.55),
+    -5px -5px 14px rgba(50, 50, 55, 0.07);
+  transform: translateY(-1px);
+  border-color: rgba(184, 115, 51, 0.15);
+}
+
+.gel-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow:
+    inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 8px rgba(50, 50, 55, 0.04);
+}
+
+/* ---- Clay Raised Button ---- */
+.neu-btn-raised {
+  background: var(--surface-raised);
+  border: 1px solid rgba(228, 228, 235, 0.05);
+  border-radius: 16px;
+  box-shadow:
+    6px 6px 16px var(--clay-shadow),
+    -3px -3px 10px var(--clay-highlight);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.neu-btn-raised:hover:not(:disabled) {
+  box-shadow:
+    8px 8px 22px var(--clay-shadow),
+    -4px -4px 14px var(--clay-highlight);
+  transform: translateY(-1px);
+}
+
+.neu-btn-raised:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow:
+    inset 3px 3px 8px var(--clay-inset-shadow),
+    inset -2px -2px 6px var(--clay-inset-highlight);
+}
+
+/* ---- Muted Button ---- */
+.muted-btn {
+  background: var(--surface);
+  border: 1px solid rgba(228, 228, 235, 0.05);
+  box-shadow:
+    6px 6px 16px var(--clay-shadow),
+    -3px -3px 10px var(--clay-highlight);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.muted-btn:hover:not(:disabled) {
+  box-shadow:
+    8px 8px 22px var(--clay-shadow),
+    -4px -4px 14px var(--clay-highlight);
+  transform: translateY(-1px);
+  border-color: rgba(228, 228, 235, 0.08);
+}
+
+.muted-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow:
+    inset 3px 3px 8px var(--clay-inset-shadow),
+    inset -2px -2px 6px var(--clay-inset-highlight);
+}
+
+/* ---- Clay Input (pressed-in well) ---- */
+.glass-input {
+  background: var(--background-alt);
+  border: 1px solid rgba(228, 228, 235, 0.04);
+  border-radius: 14px;
+  box-shadow:
+    inset 4px 4px 10px var(--clay-inset-shadow),
+    inset -2px -2px 6px var(--clay-inset-highlight);
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  background: var(--background);
+  border-color: rgba(184, 115, 51, 0.35);
+  box-shadow:
+    inset 4px 4px 10px var(--clay-inset-shadow),
+    inset -2px -2px 6px var(--clay-inset-highlight),
+    0 0 0 3px rgba(184, 115, 51, 0.10);
+}
+
+.glass-input::placeholder {
+  color: rgba(228, 228, 235, 0.18);
+}
+
+/* ---- Embossed / engraved text ---- */
+.text-embossed {
+  color: transparent;
+  background: linear-gradient(180deg, rgba(80,80,88,0.6) 0%, rgba(170,170,180,0.85) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 -1px 1px rgba(200,200,210,0.05);
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,0.5));
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(228, 228, 235, 0.06); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(228, 228, 235, 0.12); }
+
+::selection { background: rgba(184, 115, 51, 0.3); color: #fff; }
+
+input[type="checkbox"] { accent-color: var(--primary); }
+input[type="radio"] { accent-color: var(--primary); }
+
+/* ---- Warm ambient orbs (very subtle) ---- */
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -15px) scale(1.03); }
+  66% { transform: translate(-15px, 10px) scale(0.97); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  animation: orb-float 30s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.orb-1 { width: 500px; height: 500px; background: rgba(184, 115, 51, 0.06); top: -15%; left: 5%; }
+.orb-2 { width: 400px; height: 400px; background: rgba(160, 100, 50, 0.04); bottom: 5%; right: 0%; animation-delay: -10s; }
+.orb-3 { width: 350px; height: 350px; background: rgba(140, 90, 40, 0.04); top: 35%; left: 55%; animation-delay: -18s; }
+
+/* ---- Horizontal Scroll Layout ---- */
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  height: 100vh;
+  width: 100vw;
+  background: var(--background);
+  position: relative;
+  scrollbar-width: none;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-section {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- CODENE Canvas Background ---- */
+.codene-canvas-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+}
+
+.scroll-section > *:not(footer) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Clay press effect ---- */
+.neu-touchable {
+  transition: all 0.25s ease;
+}
+
+.neu-touchable:active {
+  box-shadow:
+    inset 4px 4px 10px var(--clay-inset-shadow),
+    inset -2px -2px 6px var(--clay-inset-highlight) !important;
+  transform: scale(0.97) !important;
+}
+
+@media print {
+  .no-print { display: none !important; }
 }
