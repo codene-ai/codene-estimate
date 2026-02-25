@@ -57,12 +57,15 @@ export function calculateEstimate(input: EstimateInput): EstimateResult {
   const totalCostMin = Math.round(adjustedHoursMin * HOURLY_RATE);
   const totalCostMax = Math.round(adjustedHoursMax * HOURLY_RATE);
 
-  // Calculate timeline phases
+  // Calculate total weeks first, then distribute across phases
+  const rawWeeksMin = adjustedHoursMin > 0 ? Math.max(1, Math.ceil(adjustedHoursMin / TEAM_HOURS_PER_WEEK)) : 0;
+  const rawWeeksMax = adjustedHoursMax > 0 ? Math.max(1, Math.ceil(adjustedHoursMax / TEAM_HOURS_PER_WEEK)) : 0;
+
   const timeline: TimelinePhase[] = TIMELINE_PHASES.map((phase) => ({
     name: phase.name,
     percentage: phase.percentage,
-    weeksMin: Math.max(1, Math.ceil((adjustedHoursMin * phase.percentage) / TEAM_HOURS_PER_WEEK)),
-    weeksMax: Math.max(1, Math.ceil((adjustedHoursMax * phase.percentage) / TEAM_HOURS_PER_WEEK)),
+    weeksMin: rawWeeksMin > 0 ? Math.max(0.5, Math.round((rawWeeksMin * phase.percentage) * 2) / 2) : 0,
+    weeksMax: rawWeeksMax > 0 ? Math.max(0.5, Math.round((rawWeeksMax * phase.percentage) * 2) / 2) : 0,
   }));
 
   const totalWeeksMin = timeline.reduce((sum, phase) => sum + phase.weeksMin, 0);

@@ -197,8 +197,8 @@ export function EstimateDocument({ estimate, projectName, clientName }: Estimate
               <Text style={s.phasePct}>{Math.round(phase.percentage * 100)}%</Text>
               <Text style={s.phaseDuration}>
                 {phase.weeksMin === phase.weeksMax
-                  ? `${phase.weeksMin} week${phase.weeksMin !== 1 ? 's' : ''}`
-                  : `${phase.weeksMin}–${phase.weeksMax} weeks`}
+                  ? `${phase.weeksMin} wk${phase.weeksMin !== 1 ? 's' : ''}`
+                  : `${phase.weeksMin}–${phase.weeksMax} wks`}
               </Text>
             </View>
           ))}
@@ -215,7 +215,7 @@ export function EstimateDocument({ estimate, projectName, clientName }: Estimate
         <View style={[s.notesBox, { marginTop: 16 }]}>
           <Text style={s.notesTitle}>Pricing Basis</Text>
           <Text style={s.notesText}>
-            Rate: $45–$60/hr  |  Platform: {estimate.platformLabel} ({estimate.platformMultiplier}x)  |  Project overhead: {Math.round(estimate.overheadPercentage * 100)}%
+            Rate: $30–$40/hr  |  Platform: {estimate.platformLabel} ({estimate.platformMultiplier}x)  |  Project overhead: {Math.round(estimate.overheadPercentage * 100)}%
           </Text>
         </View>
 

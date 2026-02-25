@@ -444,6 +444,9 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
             <span className="text-sm text-muted">/ admin</span>
           </div>
           <div className="flex items-center gap-2">
+            <a href="/admin/documents" className="rounded-lg p-2 text-muted hover:text-foreground" title="Documents">
+              <FileText className="h-4 w-4" />
+            </a>
             <button onClick={fetchSubmissions} className="rounded-lg p-2 text-muted hover:text-foreground" title="Refresh">
               <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
             </button>
