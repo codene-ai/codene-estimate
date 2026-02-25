@@ -54,9 +54,15 @@ export async function sendAdminNotification(params: NotificationParams) {
           <p><strong>Timeline:</strong> ${timeRange}</p>
         </div>
 
+        <div style="margin: 20px 0; padding: 16px; background: #1e1e21; border-radius: 8px; text-align: center;">
+          <a href="https://codene.us/admin" style="display: inline-block; padding: 12px 28px; background: linear-gradient(145deg, #303035, #262629); color: #d4944c; text-decoration: none; border-radius: 12px; font-weight: 600; border: 1px solid rgba(184,115,51,0.2);">
+            Open Admin Portal
+          </a>
+        </div>
+
         <p style="color: #64748b; font-size: 14px;">
           Submission ID: ${submissionId}<br/>
-          View full estimate at: https://codene.us/estimate/result/${submissionId}
+          Client estimate: <a href="https://codene.us/estimate/result/${submissionId}" style="color: #b87333;">View</a>
         </p>
       </div>
     `,
