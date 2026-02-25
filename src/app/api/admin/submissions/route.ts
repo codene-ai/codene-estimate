@@ -8,6 +8,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({ submissions: [], count: 0, warning: 'Database not configured' });
+    }
     const supabase = createServerClient();
     const url = new URL(request.url);
     const status = url.searchParams.get('status');

@@ -11,6 +11,9 @@ export async function GET(
   }
 
   try {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+    }
     const { id } = await params;
     const supabase = createServerClient();
 
@@ -40,6 +43,9 @@ export async function PATCH(
   }
 
   try {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+    }
     const { id } = await params;
     const body = await request.json();
     const supabase = createServerClient();
